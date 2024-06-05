@@ -61,7 +61,7 @@ class MovieController extends Controller
                 'duration' => 'required',
                 'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:5048',
                 'poster' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:5048',
-                'trailer' => 'required|mimetypes:video/mp4,video/quicktime|max:102400',
+                'trailer' => 'mimetypes:video/mp4,video/quicktime|max:102400',
             ]);
 
             if ($validator->fails()) {
@@ -73,61 +73,62 @@ class MovieController extends Controller
             $posterPath = $request->file('poster')->storeAs('public/posters', $request->file('poster')->getClientOriginalName());
 
             // Upload trailer video to Backblaze B2
-            $trailerVideo = $request->file('trailer');
-            $trailerVideoPath = 'trailers/' . uniqid() . '_' . rawurlencode($trailerVideo->getClientOriginalName());
-
-            // Initialize Backblaze B2 client
-            $client = new BackblazeClient(
-                env('BACKBLAZEB2_ACCOUNT_ID'),
-                env('BACKBLAZEB2_APPLICATION_KEY')
-            );
-
-            // Use your existing bucket name
-            $existingBucketName = env('BACKBLAZEB2_BUCKET_NAME');
-            $buckets = $client->listBuckets();
-
-            // Find the existing bucket by name
-            $existingBucket = null;
-            foreach ($buckets as $bucket) {
-                if ($bucket->getName() === $existingBucketName) {
-                    $existingBucket = $bucket;
-                    break;
-                }
-            }
-
-            // If the bucket exists, use it
-            if ($existingBucket) {
+            if ($request->hasFile('trailer')) {
                 // Upload trailer video to Backblaze B2
-                $file = $client->upload([
-                    'BucketId' => $existingBucket->getId(),
-                    'FileName' => $trailerVideoPath,
-                    'Body' => fopen($trailerVideo->getRealPath(), 'r'), // Open the file resource for reading
-                ]);
+                $trailerVideo = $request->file('trailer');
+                $trailerVideoPath = 'trailers/' . uniqid() . '_' . rawurlencode($trailerVideo->getClientOriginalName());
 
-                // Check if the upload was successful
-                if ($file) {
-                    // Create movie entry
-                    $movie = new Movie;
-                    $movie->category_id = $data['category_id'];
-                    $movie->name = $data['name'];
-                    $movie->description = $data['description'];
-                    $movie->access = $data['access'];
-                    $movie->language = $data['language'];
-                    $movie->content_rating = $data['content_rating'];
-                    $movie->release_date = $data['release_date'];
-                    $movie->duration = $data['duration'];
-                    $movie->thumbnail = 'thumbnails/' . $request->file('thumbnail')->getClientOriginalName();
-                    $movie->poster = 'posters/' . $request->file('poster')->getClientOriginalName();
-                    $movie->trailer = $trailerVideoPath;
-                    $movie->save();
+                // Initialize Backblaze B2 client
+                $client = new BackblazeClient(
+                    env('BACKBLAZEB2_ACCOUNT_ID'),
+                    env('BACKBLAZEB2_APPLICATION_KEY')
+                );
 
-                    return response()->json(['status' => 1, 'message' => 'Movie information uploaded successfully']);
-                } else {
-                    return response()->json(['status' => 0, 'message' => 'Failed to upload the trailer to Backblaze B2']);
+                // Use your existing bucket name
+                $existingBucketName = env('BACKBLAZEB2_BUCKET_NAME');
+                $buckets = $client->listBuckets();
+
+                // Find the existing bucket by name
+                $existingBucket = null;
+                foreach ($buckets as $bucket) {
+                    if ($bucket->getName() === $existingBucketName) {
+                        $existingBucket = $bucket;
+                        break;
+                    }
                 }
-            } else {
-                return response()->json(['status' => 0, 'message' => 'The specified bucket does not exist.']);
+
+                // If the bucket exists, use it
+                if ($existingBucket) {
+                    // Upload trailer video to Backblaze B2
+                    $file = $client->upload([
+                        'BucketId' => $existingBucket->getId(),
+                        'FileName' => $trailerVideoPath,
+                        'Body' => fopen($trailerVideo->getRealPath(), 'r'), // Open the file resource for reading
+                    ]);
+
+                } else {
+                    return response()->json(['status' => 0, 'message' => 'The specified bucket does not exist.']);
+                }
+            }else{
+                $trailerVideoPath = "";
             }
+
+                $movie = new Movie;
+                $movie->category_id = $data['category_id'];
+                $movie->name = $data['name'];
+                $movie->description = $data['description'];
+                $movie->access = $data['access'];
+                $movie->language = $data['language'];
+                $movie->content_rating = $data['content_rating'];
+                $movie->release_date = $data['release_date'];
+                $movie->duration = $data['duration'];
+                $movie->thumbnail = 'thumbnails/' . $request->file('thumbnail')->getClientOriginalName();
+                $movie->poster = 'posters/' . $request->file('poster')->getClientOriginalName();
+                $movie->trailer = $trailerVideoPath;
+                $movie->save();
+
+                return response()->json(['status' => 1, 'message' => 'Movie information uploaded successfully']);
+             
         }
     }
 

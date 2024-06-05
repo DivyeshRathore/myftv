@@ -257,7 +257,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-group px-5 ">
                                             <label class="form-label flex-grow-1" for="Trailer ">
-                                                <strong>Trailer </strong> <span class="text-danger">*</span>:
+                                                <strong>Trailer </strong>:
                                             </label>
 
                                             <!-- textarea input -->

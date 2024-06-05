@@ -162,7 +162,7 @@
                                         <div class="col-sm-12">
                                             <div class="form-group">
                                                 <label class="form-label flex-grow-1" for="Trailer">
-                                                    <strong>Trailer</strong> <span class="text-danger">*</span>:
+                                                    <strong>Trailer</strong> :
                                                 </label>
                                                 <input id="Trailer" type="file" class="form-control"
                                                     name="trailer" />
