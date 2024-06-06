@@ -36,6 +36,7 @@ Route::
             Route::get('/', 'HomeController@index')->name('home');
             Route::get('/movie/{id}', 'MovieController@show');
             Route::get('/movies/category/{categoryId}', 'MovieController@moviesByCategory');
+            Route::get('/movies/language/{language}', 'MovieController@moviesByLanguage');
             Route::get('/movies', 'MovieController@allMovie');
             Route::get('/series', 'SeriesController@allSeries');
             Route::get('series/{id}', 'SeriesController@show');

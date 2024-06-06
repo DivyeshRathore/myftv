@@ -115,10 +115,18 @@
                             @else
                                 <?php $active = ''; ?>
                             @endif
-                            <li class="nav-item">
-                                <a class="nav-link {{ $active }}" href="{{ url('/movies') }}">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link {{ $active }}" href="{{ url('/movies') }}" id="movieDropdown">
                                     <span class="item-name">Movies</span>
                                 </a>
+                                
+                                <ul class="dropdown-menu dropdown-user border-0 p-0 m-0" aria-labelledby="movieDropdown" data-bs-popper="static">
+                                    <li><a class="nav-link" href="{{ url('/movies/language/hindi') }}">Hindi</a></li>
+                                    <li><a class="nav-link" href="{{ url('/movies/language/english') }}">English</a></li>
+                                    <li><a class="nav-link" href="{{ url('/movies/language/french') }}">French</a></li>
+                                    <li><a class="nav-link" href="{{ url('/movies/language/marathi') }}">Marathi</a></li>
+                                    <li><a class="nav-link" href="{{ url('/movies/language/gujarati') }}">Gujarati</a></li>
+                                </ul>
                             </li>
 
                             @if (Session::get('page') == 'series')

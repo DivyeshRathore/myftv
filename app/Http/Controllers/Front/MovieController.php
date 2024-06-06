@@ -76,6 +76,21 @@ class MovieController extends Controller
         return view('front.category-wise', compact('category', 'movies'));
     }
 
+    public function moviesByLanguage($language)
+    {
+        Session::put('page', 'movies');
+        
+        if (!$language) {
+            abort(404); // Category not found
+        }
+
+        $movies = Movie::where('language', $language)
+                        ->limit(4)
+                        ->get();
+
+        return view('front.allmovie', compact('movies'));
+    }
+
     public function allMovie()
     {
         Session::put('page', 'movies');
