@@ -59,8 +59,7 @@
                                     <div
                                         class="col-lg-5 col-md-12 trailor-video iq-slider d-none d-lg-block position-relative">
                                         @if ($item->post_type == 'movie' && $item->movie && $item->movie->trailer)
-                                            <a data-fslightbox="html5-video"
-                                                href="{{ env('BACKBLAZEB2_BUCKET_URL') }}/{{ $item->movie->trailer }}"
+                                            <a data-fslightbox="html5-video" href="{{ env('BACKBLAZEB2_BUCKET_URL') }}/{{ $item->movie->trailer }}"
                                                 class="video-open playbtn text-decoration-none" tabindex="0">
                                                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
                                                     xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -79,8 +78,7 @@
                                             </a>
                                         @elseif($item->post_type == 'series' && $item->series)
                                             @if ($item->series->local)
-                                                <a data-fslightbox="html5-video"
-                                                    href="{{ env('BACKBLAZEB2_BUCKET_URL') }}/{{ $item->series->local }}"
+                                                <a data-fslightbox="html5-video" href="{{ env('BACKBLAZEB2_BUCKET_URL') }}/{{ $item->series->local }}"
                                                     class="video-open playbtn text-decoration-none" tabindex="0">
                                                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
                                                         xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
