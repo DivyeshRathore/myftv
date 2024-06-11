@@ -360,7 +360,7 @@
             // Check if there is a previously uploaded video or YouTube URL
             @if (!empty($series['local']))
                 // Display local video preview if available
-                localPreview.src = 'https://streamingyogesh.s3.us-east-005.backblazeb2.com/{{ $series->local }}';
+                localPreview.src = "{{ env('BACKBLAZEB2_BUCKET_URL') }}/{{ $series->local }}";
                 localPreview.style.display = 'block';
             @elseif (!empty($series['youtube']))
                 // Display YouTube video preview if available

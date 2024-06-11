@@ -405,7 +405,7 @@
 
                 // Display old preview if available
                 @if (!empty($item['local']))
-                    localPreview.src = 'https://streamingyogesh.s3.us-east-005.backblazeb2.com/{{ $item->local }}';
+                    localPreview.src = '{{ env("BACKBLAZEB2_BUCKET_URL") }}/{{ $item->local }}';
                     localPreview.style.display = 'block';
                 @elseif (!empty($item['youtube']))
                     var youtubeId = '{{ $item->youtube }}';

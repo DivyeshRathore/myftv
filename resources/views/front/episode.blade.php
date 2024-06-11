@@ -11,10 +11,10 @@
                             @if ($episode->local)
                                 <video id="my-video" poster="{{ asset('storage/' . $episode['poster']) }}"
                                     class="video-js vjs-big-play-centered w-100" controls preload="auto"
-                                    data-setup='{ "techOrder": ["html5"], "sources": [{ "type": "video/mp4", "src": "https://streamingyogesh.s3.us-east-005.backblazeb2.com/{{ $episode->local }}" }] }'
+                                    data-setup='{ "techOrder": ["html5"], "sources": [{ "type": "video/mp4", "src": "{{ env("BACKBLAZEB2_BUCKET_URL") }}/{{ $episode->local }}" }] }'
                                     style="object-fit: cover;">
                                     <source
-                                        src="https://streamingyogesh.s3.us-east-005.backblazeb2.com/{{ $episode->local }}"
+                                        src="{{ env('BACKBLAZEB2_BUCKET_URL') }}/{{ $episode->local }}"
                                         type="video/mp4" />
                                     {{-- <source src="MY_VIDEO.webm" type="video/webm" /> --}}
                                 </video>
